@@ -7,15 +7,15 @@ import (
 )
 
 type CreditCard struct {
-	ID               string
-	Name             string
-	Number           string
-	ExpirantionMonth int32
-	ExpirantionYear  int32
-	CVV              int32
-	Balance          float64
-	Limit            float64
-	CreatedAt        time.Time
+	ID              string
+	Name            string
+	Number          string
+	ExpirationMonth int32
+	ExpirationYear  int32
+	CVV             int32
+	Balance         float64
+	Limit           float64
+	CreatedAt       time.Time
 }
 
 func NewCreditCard() CreditCard {
