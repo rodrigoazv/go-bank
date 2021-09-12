@@ -22,7 +22,7 @@ type Transaction struct {
 	CreatedAt    time.Time
 }
 
-func newTransaction() *Transaction {
+func NewTransaction() *Transaction {
 	t := &Transaction{}
 	t.ID = uuid.NewV4().String()
 	t.CreatedAt = time.Now()
@@ -30,7 +30,7 @@ func newTransaction() *Transaction {
 	return t
 }
 
-func (t *Transaction) processAndValidate(creditCard *CreditCard) {
+func (t *Transaction) ProcessAndValidate(creditCard *CreditCard) {
 	if t.Amount+creditCard.Balance > creditCard.Limit {
 		t.Status = "rejected"
 	} else {
