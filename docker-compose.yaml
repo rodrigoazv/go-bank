@@ -1,14 +1,14 @@
-version: 3
+version: "3"
 
 services:
   app:
-    container-name: appbank
+    container_name: appbank
     build: .
     ports: 
       - "50052:50051"
     volumes:
       - .:/go/src/
-    extra-hosts:
+    extra_hosts:
       - "host.docker.internal:172.17.0.1"
 
   db:
@@ -21,7 +21,7 @@ services:
       - POSTGRES_PASSWORD=root
       - POSTGRES_DB=codebank
     ports: 
-      - "5432:5432"
+      - "5433:5432"
     extra_hosts:
       - "host.docker.internal:172.17.0.1"
     
