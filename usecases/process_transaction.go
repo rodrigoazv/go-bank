@@ -1,14 +1,17 @@
 package usecases
 
 import (
+	"encoding/json"
 	"time"
 
 	"github.com/rodrigoazv/go-bank/domain"
 	"github.com/rodrigoazv/go-bank/dto"
+	"github.com/rodrigoazv/go-bank/infra/kafka"
 )
 
 type UseCaseTransaction struct {
 	TransactionRepository domain.TransactionRepository
+	KafkaProducer         kafka.KafkaProducer
 }
 
 func NewUseCaseTransaction(transactionRepository domain.TransactionRepository) UseCaseTransaction {
@@ -33,6 +36,20 @@ func (u UseCaseTransaction) ProcessTransaction(transactionDto dto.Transaction) (
 	if err != nil {
 		return domain.Transaction{}, err
 	}
+
+	transactionDto.ID = t.ID
+	transactionDto.CreatedAt = t.CreatedAt
+	transactionJson, err := json.Marshal(transactionDto)
+	if err != nil {
+		return domain.Transaction{}, err
+	}
+
+	err = u.KafkaProducer.Publish(string(transactionJson), "payments")
+
+	if err != nil {
+		return domain.Transaction{}, err
+	}
+
 	return *t, nil
 }
 
